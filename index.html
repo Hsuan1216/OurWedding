@@ -155,11 +155,26 @@
       pointer-events: none;
     }
     .hero-content {
-      position: relative;
+      position: absolute;
+      inset: 0;
       z-index: 2;
-      width: min(880px, calc(100% - 36px));
-      padding-top: 72px;
+      width: 100%;
       text-shadow: 0 2px 22px rgba(0,0,0,.22);
+      pointer-events: none;
+    }
+    .hero-title-block {
+      position: absolute;
+      top: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1280px, calc(100% - 48px));
+    }
+    .hero-info-block {
+      position: absolute;
+      left: 50%;
+      bottom: 15%;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 48px));
     }
     .hero-kicker {
       font-family: "Cormorant Garamond", serif;
@@ -171,14 +186,26 @@
     }
     .hero h1 {
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(50px, 9.3vw, 102px);
-      line-height: .92;
+      font-size: clamp(58px, 6.6vw, 96px);
+      line-height: .94;
       font-weight: 400;
-      letter-spacing: .02em;
+      letter-spacing: .015em;
       margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: .16em;
+      white-space: nowrap;
     }
-    .hero-amp { color: #f2dcc7; font-style: italic; font-size: .66em; padding: 0 .12em; }
-    .hero-divider { width: 58px; height: 1px; background: rgba(242,220,199,.82); margin: 28px auto; }
+    .hero-name { display: inline-block; white-space: nowrap; }
+    .hero-amp {
+      color: #f2dcc7;
+      font-style: italic;
+      font-size: .56em;
+      line-height: 1;
+      transform: translateY(-.08em);
+    }
+    .hero-divider { width: 58px; height: 1px; background: rgba(242,220,199,.82); margin: 0 auto 22px; }
     .hero-quote {
       margin: 0 auto;
       max-width: 650px;
@@ -480,8 +507,22 @@
       .section { padding: 74px 0; }
       .nav-inner { height: 64px; }
       .brand { font-size: 25px; }
-      .hero-content { padding-top: 64px; }
-      .hero h1 { font-size: clamp(48px, 17vw, 72px); }
+      .hero-title-block {
+        top: 12%;
+        width: min(100% - 28px, 620px);
+      }
+      .hero-info-block {
+        bottom: 12%;
+        width: min(100% - 32px, 620px);
+      }
+      .hero h1 {
+        font-size: clamp(48px, 15vw, 70px);
+        display: grid;
+        gap: .02em;
+        white-space: normal;
+        line-height: .88;
+      }
+      .hero-amp { font-size: .52em; margin: .04em 0; transform: none; }
       .hero-quote br { display: none; }
       .countdown { gap: 12px; }
       .count-card {
@@ -537,11 +578,15 @@
   <main id="top">
     <section class="hero">
       <div class="hero-content">
-        <div class="hero-kicker">Save The Date</div>
-        <h1>Hsin Chia <span class="hero-amp">&amp;</span> Yi Hsuan</h1>
-        <div class="hero-divider"></div>
-        <p class="hero-quote">「這世界大到我們要花很多時間去探索，<br>但只要有你/妳的地方就是家。」</p>
-        <div class="hero-date">2026 . 12 . 12</div>
+        <div class="hero-title-block">
+          <div class="hero-kicker">Save The Date</div>
+          <h1><span class="hero-name">Hsin Chia</span><span class="hero-amp">&amp;</span><span class="hero-name">Yi Hsuan</span></h1>
+        </div>
+        <div class="hero-info-block">
+          <div class="hero-divider"></div>
+          <p class="hero-quote">「這世界大到我們要花很多時間去探索，<br>但只要有你/妳的地方就是家。」</p>
+          <div class="hero-date">2026 . 12 . 12</div>
+        </div>
       </div>
       <a class="scroll-cue" href="#countdown" aria-label="向下瀏覽"></a>
     </section>
