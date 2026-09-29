@@ -335,7 +335,7 @@
       flex: 0 0 auto;
       transition: transform .3s ease;
     }
-    .accordion-btn[aria-expanded="true"] .accordion-icon { transform: rotate(45deg); }
+    .accordion-btn[aria-expanded="true"] .accordion-icon { transform: none; }
     .accordion-panel {
       display: grid;
       grid-template-rows: 0fr;
@@ -344,6 +344,20 @@
     .accordion-panel.open { grid-template-rows: 1fr; }
     .accordion-panel > div { overflow: hidden; }
     .accordion-content { padding: 16px 0 8px; color: var(--muted); line-height: 2; font-size: 14px; }
+    .map-frame {
+      width: 100%;
+      height: 320px;
+      border: 0;
+      border-radius: 18px;
+      margin-top: 14px;
+      box-shadow: 0 10px 28px rgba(44,50,46,.10);
+      display: block;
+    }
+    .map-address { margin: 0; color: var(--text); line-height: 1.8; }
+    @media (max-width: 640px) {
+      .map-frame { height: 260px; border-radius: 14px; }
+      .map-address { font-size: 13px; }
+    }
 
     /* Decorative side card */
     .monogram-card {
@@ -592,13 +606,21 @@
 
               <div class="accordion">
                 <button class="accordion-btn" id="transportBtn" aria-expanded="false" aria-controls="transportPanel">
-                  <span>交通資訊 TRANSPORTATION</span>
+                  <span>交通指引 TRANSPORTATION</span>
                   <span class="accordion-icon">＋</span>
                 </button>
                 <div class="accordion-panel" id="transportPanel" role="region" aria-labelledby="transportBtn">
                   <div>
                     <div class="accordion-content">
-                      建議以導航定位會場地址前往。若有接駁、停車或大眾運輸安排，可於婚禮前將資訊補在此處；此面板已完成手機版摺疊設計。
+                      <p class="map-address"><strong>會場地址：</strong>臺南市仁德區成功里文華路二段326號</p>
+                      <iframe
+                        class="map-frame"
+                        src="https://www.google.com/maps?q=%E8%87%BA%E5%8D%97%E5%B8%82%E4%BB%81%E5%BE%B7%E5%8D%80%E6%88%90%E5%8A%9F%E9%87%8C%E6%96%87%E8%8F%AF%E8%B7%AF%E4%BA%8C%E6%AE%B5326%E8%99%9F&output=embed"
+                        title="十股糖仁文創園區 Google Map"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen>
+                      </iframe>
                     </div>
                   </div>
                 </div>
@@ -662,16 +684,22 @@
 
                 <div class="field">
                   <label for="highChair">是否需要兒童椅 HIGH CHAIR</label>
-                  <select id="highChair">
+                  <select id="highChair" name="entry.333118236">
                     <option value="" selected>請選擇</option>
-                    <option value="不需要">不需要</option>
-                    <option value="需要">需要</option>
+                    <option value="否">不需要</option>
+                    <option value="是">需要</option>
                   </select>
                 </div>
               </div>
 
-              <div class="form-note">
-                ※ 兒童椅欄位目前尚未綁定 Google Forms 欄位 ID；取得該題的 entry ID 後即可加入並一併送出。
+              <div class="field full">
+                <label for="otherNeeds">其他需求 OTHER REQUESTS</label>
+                <input id="otherNeeds" name="entry.436495907" type="text" placeholder="例如：無障礙座位、座位安排等（沒有可留空）" />
+              </div>
+
+              <div class="field full">
+                <label for="message">給新人的話 MESSAGE TO THE COUPLE</label>
+                <textarea id="message" name="entry.1203191114" rows="4" placeholder="歡迎留下一段話，跟我們打個招呼吧！"></textarea>
               </div>
 
               <button class="submit-btn" type="submit">送出回函 SEND RSVP</button>
@@ -739,10 +767,13 @@
     // Transportation accordion
     const transportBtn = document.getElementById('transportBtn');
     const transportPanel = document.getElementById('transportPanel');
+    const transportIcon = transportBtn.querySelector('.accordion-icon');
     transportBtn.addEventListener('click', () => {
       const expanded = transportBtn.getAttribute('aria-expanded') === 'true';
-      transportBtn.setAttribute('aria-expanded', String(!expanded));
-      transportPanel.classList.toggle('open', !expanded);
+      const nextExpanded = !expanded;
+      transportBtn.setAttribute('aria-expanded', String(nextExpanded));
+      transportPanel.classList.toggle('open', nextExpanded);
+      transportIcon.textContent = nextExpanded ? '−' : '＋';
     });
 
     // Conditional RSVP fields
