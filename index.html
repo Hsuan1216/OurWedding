@@ -705,10 +705,10 @@
                 <label for="relationship">與新人關係 RELATIONSHIP</label>
                 <select id="relationship" name="entry.2079164908" required>
                   <option value="" selected disabled>請選擇</option>
+                  <option value="男方家人親戚">男方家人親戚</option>
+                  <option value="男方好友">男方好友</option>
+                  <option value="男方同事">男方同事</option>
                   <option value="女方好友&同事">女方好友＆同事</option>
-                  <option value="男方好友&同事">男方好友＆同事</option>
-                  <option value="女方親友">女方親友</option>
-                  <option value="男方親友">男方親友</option>
                 </select>
               </div>
 
@@ -736,6 +736,12 @@
                   </select>
                 </div>
               </div>
+
+              <!-- Fallback values used only when guest count is 0.
+                   Google Forms requires both dietary and high-chair fields. -->
+              <input id="dietZeroChoice" type="hidden" name="entry.845582358" value="__other_option__" disabled>
+              <input id="dietZeroOther" type="hidden" name="entry.845582358.other_option_response" value="不參加午宴" disabled>
+              <input id="highChairZero" type="hidden" name="entry.333118236" value="否" disabled>
 
               <div class="field full">
                 <label for="otherNeeds">其他需求 OTHER REQUESTS</label>
@@ -826,13 +832,27 @@
     const conditionalFields = document.getElementById('conditionalFields');
     const diet = document.getElementById('diet');
     const highChair = document.getElementById('highChair');
+    const dietZeroChoice = document.getElementById('dietZeroChoice');
+    const dietZeroOther = document.getElementById('dietZeroOther');
+    const highChairZero = document.getElementById('highChairZero');
 
     function updateConditionalFields() {
       const count = Number(guestCount.value || 0);
       const show = count > 0;
       conditionalFields.classList.toggle('show', show);
+
+      // Attending: submit the visible fields.
+      diet.disabled = !show;
+      highChair.disabled = !show;
       diet.required = show;
       highChair.required = show;
+
+      // Not attending: Google Forms still requires these questions.
+      // Send Dietary = Other → 不參加午宴, High chair = 否.
+      dietZeroChoice.disabled = show;
+      dietZeroOther.disabled = show;
+      highChairZero.disabled = show;
+
       if (!show) {
         diet.value = '';
         highChair.value = '';
